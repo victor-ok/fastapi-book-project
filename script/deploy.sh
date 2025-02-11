@@ -12,7 +12,7 @@ export PATH=/bin:/usr/bin:$PATH
 # fi
 
 echo "Install application dependencies"
-sudo python3 -m pip install --upgrade pip
+sudo apt install python3-pip
 sudo pip install -r requirements.txt
 
 if ! command -v nginx > /dev/null; then
