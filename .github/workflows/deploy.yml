@@ -51,6 +51,10 @@ jobs:
                     cd fastapi-book-project
                     git pull origin main
 
+                    Stop and remove old container (if running)
+                    docker stop fastapi_app || true
+                    docker rm fastapi_app || true
+
                     # Restart services
                     sudo systemctl restart docker
                     sudo docker-compose down
