@@ -13,6 +13,7 @@ if [ ! -d "fastapi-book-project" ]; then
   echo "Install application dependencies"
   sudo python3 -m pip install --upgrade pip
   sudo pip3 install -r requirements.txt
+
 fi
 
 if ! command -v nginx > /dev/null; then
