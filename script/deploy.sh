@@ -5,11 +5,11 @@ echo "updating....."
 
 export PATH=/bin:/usr/bin:$PATH
 
-# Ensure repo exists
-# if [ ! -d "fastapi-book-project" ]; then
-#   git clone https://github.com/victor-ok/fastapi-book-project.git
-#   cd fastapi-book-project
-# fi
+Ensure repo exists
+if [ ! -d "fastapi-book-project" ]; then
+  git clone https://github.com/victor-ok/fastapi-book-project.git
+  cd fastapi-book-project
+fi
 
 echo "Install application dependencies"
 sudo apt install python3-pip
