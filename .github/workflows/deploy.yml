@@ -22,8 +22,22 @@ jobs:
             
             - name: Deploy to server instance
               run: |
-                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} "git clone https://github.com/victor-ok/fastapi-book-project.git
-                cd fastapi-book-project/script && chmod +x deploy.sh && sudo ./deploy.sh"
+                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} << 'EOF'
+                    export PATH=/bin:/usr/bin:$PATH  # Ensure all commands work
+            
+                    # Ensure repo exists
+                    if [ ! -d "fastapi-book-project" ]; then
+                      git clone https://github.com/victor-ok/fastapi-book-project.git
+                    fi
+                    
+                    cd fastapi-book-project
+                    git pull origin main
+                    
+                    # Restart services
+                    docker-compose down
+                    docker-compose up -d --build
+                    sudo systemctl restart nginx
+                  EOF
 
             - name: Clean Up SSH Key
               if: always()
