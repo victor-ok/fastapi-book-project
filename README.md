@@ -137,6 +137,77 @@ The API includes proper error handling for:
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Project Updates <a name="project-updates"></a>
+1. **Updated Book Endpoint**  
+   - Modified `routes/books.py` to handle 404 responses for non-existent books
+2. **Enhanced Tests**  
+   - Added test cases in `tests/test_books.py` for the new functionality
+3. **Containerization**  
+   - Added `Dockerfile` and `docker-compose.yml` for Docker support
+4. **CI/CD Pipelines**  
+   - Created GitHub Actions workflows:
+     - `test.yml` (CI pipeline for testing)
+     - `deploy.yml` (CD pipeline for deployment)
+
+---
+
+## CI/CD Setup <a name="cicd-setup"></a>
+### Create CI/CD Files
+
+# Navigate to project directory
+cd /path/to/fastapi-book-project
+
+# Create workflows directory
+mkdir -p .github/workflows
+cd .github/workflows
+
+# Create workflow files
+touch test.yml deploy.yml
+
+## Commit Changes
+
+git add .
+git commit -m "Added CI/CD and Docker support"
+git push origin main
+SSH Key Configuration <a name="ssh-key-configuration"></a>
+
+Generate SSH Keys
+
+ssh-keygen -t rsa -b 4096 -C "your-vm-ip-address"
+# Accept default locations and empty passphrase
+Configure VM Access
+
+
+# Copy public key to VM
+ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@your-vm-ip-address
+
+# Test connection
+ssh ubuntu@your-vm-ip-address
+Add Private Key to GitHub Secrets
+
+Copy private key:
+
+cat ~/.ssh/id_rsa
+In GitHub:
+Settings → Secrets and variables → Actions → New repository secret
+Name: SSH_PRIVATE_KEY
+Paste private key
+Virtual Machine Setup <a name="virtual-machine-setup"></a>
+
+# Health check
+curl https://YourDomain.com/healthcheck
+
+# Get all books
+curl https://YourDomain.com/api/v1/books/
+
+# Get specific book
+curl https://YourDomain.com/api/v1/books/1
+
+# Test 404 response
+curl https://YourDomain.com/api/v1/books/70
+Troubleshooting <a name="troubleshooting"></a>
+
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
