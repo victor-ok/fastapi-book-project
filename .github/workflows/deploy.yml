@@ -22,7 +22,7 @@ jobs:
 
             - name: Deploy to server instance
               run: |
-                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+                ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
                     set -e  # Exit on any failure
 
                     # Ensure Docker is installed
