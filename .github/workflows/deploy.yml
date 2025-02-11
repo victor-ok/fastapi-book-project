@@ -18,18 +18,23 @@ jobs:
                 mkdir -p ~/.ssh
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
                 chmod 600 ~/.ssh/id_rsa
-                ssh-keyscan -H ${{secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-            
+                ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
             - name: Deploy to server instance
               run: |
-                curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-                chmod +x /usr/local/bin/docker-compose
-                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} << EOF
-                    export PATH=/bin:/usr/bin:$PATH  # Ensure all commands work
-            
+                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+                    set -e  # Exit on any error
+
+                    # Install Docker Compose if not installed
+                    if ! command -v docker-compose &> /dev/null; then
+                        sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                        sudo chmod +x /usr/local/bin/docker-compose
+                        sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+                    fi
+                    
                     # Ensure repo exists
                     if [ ! -d "fastapi-book-project" ]; then
-                      git clone https://github.com/victor-ok/fastapi-book-project.git
+                        git clone https://github.com/victor-ok/fastapi-book-project.git
                     fi
                     
                     cd fastapi-book-project
@@ -39,7 +44,7 @@ jobs:
                     docker-compose down
                     docker-compose up -d --build
                     sudo systemctl restart nginx
-                  EOF
+                EOF
 
             - name: Clean Up SSH Key
               if: always()
