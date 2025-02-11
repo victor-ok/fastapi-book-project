@@ -22,10 +22,8 @@ jobs:
             
             - name: Deploy to server instance
               run: |
-                if [ ! -d "fastapi-book-project" ]; then
-                    git clone https://github.com/victor-ok/fastapi-book-project.git
-                    cd fastapi-book-project
-                fi
+                git clone https://github.com/victor-ok/fastapi-book-project.git
+                cd fastapi-book-project
                 ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} "cd /fastapi-book-project/script/ && chmod +x deploy.sh && .deploy.sh"
 
             - name: Clean Up SSH Key
