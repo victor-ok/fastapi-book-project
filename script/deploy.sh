@@ -6,14 +6,14 @@ echo "updating....."
 export PATH=/bin:/usr/bin:$PATH
 
 # Ensure repo exists
-# if [ ! -d "fastapi-book-project" ]; then
-#   git clone https://github.com/victor-ok/fastapi-book-project.git
-#   cd fastapi-book-project
-# fi
-
-echo "Install application dependencies"
-sudo python3 -m pip install --upgrade pip
-sudo pip install -r requirements.txt
+if [ ! -d "fastapi-book-project" ]; then
+  git clone https://github.com/victor-ok/fastapi-book-project.git
+  cd fastapi-book-project
+  sudo ls
+  echo "Install application dependencies"
+  sudo python3 -m pip install --upgrade pip
+  sudo pip3 install -r requirements.txt
+fi
 
 if ! command -v nginx > /dev/null; then
     echo "Installing Nginx"
