@@ -22,7 +22,8 @@ jobs:
             
             - name: Deploy to server instance
               run: |
-                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} "cd /fastapi-book-project/script/ && chmod +x deploy.sh && .deploy.sh"
+                ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SERVER_USER}}@${{ secrets.SERVER_HOST}} "git clone https://github.com/victor-ok/fastapi-book-project.git
+                cd fastapi-book-project/script && chmod +x deploy.sh && sudo ./deploy.sh"
 
             - name: Clean Up SSH Key
               if: always()
