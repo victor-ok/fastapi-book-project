@@ -29,4 +29,4 @@ jobs:
     - name: Run Tests
       run: |
         source venv/bin/activate
-        pytest
+        pytest --maxfail=1 --disable-warnings
